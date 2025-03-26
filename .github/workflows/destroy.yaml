@@ -1,0 +1,28 @@
+---
+name: Destroy exit nodes
+concurrency: mnako/scaly-shark/destroy/${{ github.ref }}
+"on":
+  workflow_dispatch:
+jobs:
+  destroy:
+    name: Destroy exit nodes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Configure 1Password Service Account
+        uses: 1password/load-secrets-action/configure@v1.3.1
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      - name: Load 1Password Secrets
+        uses: 1password/load-secrets-action@v1.3.1
+        env:
+          FLY_API_TOKEN:
+            op://scaly-shark-secrets/FLY_API_TOKEN/credential
+          TS_AUTH_KEY:
+            op://scaly-shark-secrets/TS_AUTH_KEY/credential
+      - name: Setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@v1.5
+      - name: Destroy
+        run: |
+          make destroy

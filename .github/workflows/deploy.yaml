@@ -1,0 +1,49 @@
+---
+name: Deploy an exit node
+concurrency: mnako/scaly-shark/deploy/${{ github.ref }}
+"on":
+  workflow_dispatch:
+    inputs:
+      region:
+        description: Region
+        required: true
+        type: choice
+        options:
+          - ams
+          - cdg
+          - dfw
+          - fra
+          - iad
+          - lax
+          - lhr
+          - nrt
+          - ord
+          - scl
+          - sea
+          - sin
+          - sjc
+          - syd
+          - yyz
+jobs:
+  deploy:
+    name: Deploy an exit node
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Configure 1Password Service Account
+        uses: 1password/load-secrets-action/configure@v1.3.1
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      - name: Load 1Password Secrets
+        uses: 1password/load-secrets-action@v1.3.1
+        env:
+          FLY_API_TOKEN:
+            op://scaly-shark-secrets/FLY_API_TOKEN/credential
+          TS_AUTH_KEY:
+            op://scaly-shark-secrets/TS_AUTH_KEY/credential
+      - name: Setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@v1.5
+      - name: Deploy
+        run: |
+          REGION=${{ github.event.inputs.region }} make deploy

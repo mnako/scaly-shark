@@ -1,0 +1,32 @@
+app = "scaly-shark-app"
+primary_region = "fra"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+[checks]
+  [checks.ts_health_check]
+    grace_period = "60s"
+    interval = "60s"
+    method = "get"
+    path = "/healthz"
+    port = 9002
+    timeout = "10s"
+    type = "http"
+[build]
+  dockerfile = "Dockerfile"
+[[vm]]
+    name = "scaly-shark-fra-machine"
+    region = "fra"
+    size = "shared-cpu-1x"
+    cpus = 1
+    cpu_kind = "shared"
+    memory = "512mb"
+[[services]]
+  protocol = "udp"
+  internal_port = 41641
+  processes = ["app"]
+    [services.concurrency]
+      type = "connections"
+      hard_limit = 100
+      soft_limit = 75
+  [[services.ports]]
+    port = 41641

@@ -1,0 +1,14 @@
+{
+  "checks": {
+    "ts_health_check": {
+      "grace_period": "15s",
+      "interval": "60s",
+      "method": "GET",
+      "path": "/healthz",
+      "port": 9002,
+      "protocol": "http",
+      "timeout": "15s",
+      "type": "http"
+    }
+  }
+}
