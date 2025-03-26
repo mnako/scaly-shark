@@ -1,5 +1,5 @@
 app = "scaly-shark-app"
-primary_region = "fra"
+primary_region = "nrt"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 [checks]
