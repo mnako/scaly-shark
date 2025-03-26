@@ -43,7 +43,7 @@ jobs:
           TS_AUTH_KEY:
             op://scaly-shark-secrets/TS_AUTH_KEY/credential
       - name: Setup flyctl
-        uses: superfly/flyctl-actions/setup-flyctl@v1.5
+        uses: superfly/flyctl-actions/setup-flyctl@63da3ecc5e2793b98a3f2519b3d75d4f4c11cec2
       - name: Deploy
         run: |
           REGION=${{ github.event.inputs.region }} make deploy
