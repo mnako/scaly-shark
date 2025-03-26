@@ -1,5 +1,5 @@
 REGION ?= nrt
-
+STAMP := $(shell date +%m%d%H)
 build:
 	docker build --platform linux/amd64 --tag scaly-shark:latest .
 
@@ -16,8 +16,8 @@ deploy:
 	flyctl secrets set TS_AUTH_KEY="${TS_AUTH_KEY}" --stage
 	flyctl machine run \
 		--machine-config machine.json \
-		--env TS_HOSTNAME="$(REGION)-fly-vpn" \
-		--name scaly-shark-$(REGION)-machine1 \
+		--env TS_HOSTNAME="$(REGION)-fly-vpn$(STAMP)" \
+		--name scaly-shark-$(REGION)-machine$(STAMP) \
 		--region $(REGION) \
 		--vm-memory 512 \
 		.
