@@ -1,4 +1,4 @@
-FROM tailscale/tailscale:v1.80.3
+FROM tailscale/tailscale:v1.82.0
 
 ENV PORT="41641"
 ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
